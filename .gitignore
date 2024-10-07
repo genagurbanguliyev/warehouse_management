@@ -1,0 +1,14 @@
+# Caches
+.idea
+*/__pycache__
+*/*/__pycache__
+*/**/__pycache__
+
+
+public
+
+poetry.lock
+
+# logs
+logs/*
+!logs/log

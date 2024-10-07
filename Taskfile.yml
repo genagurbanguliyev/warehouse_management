@@ -1,0 +1,26 @@
+version: '3'
+
+includes:
+  seeder:
+    taskfile: ./Taskseeder.yml
+    aliases: [ seed ]
+
+
+tasks:
+  run-local:
+    desc: Run app locally.
+    cmds:
+      - uvicorn app.main:app --reload --port 8080
+  run-global:
+    desc: Run app globally.
+    cmds:
+      - gunicorn app.main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+
+  kill-uvicorn:
+    desc: Kill all uvicorn tasks
+    cmds:
+      - sudo killall uvicorn
+  clean:
+    desc: Clean caches.
+    cmds:
+      - rm -rf __pycache__ .pytest_cache .mypy_cache

@@ -1,0 +1,49 @@
+version: '3'
+
+tasks:
+  create-db-up:
+    desc: Create database
+    cmds:
+      - python app/seeders/seed_create_database.py --up
+  create-db-down:
+    desc: Remove database
+    cmds:
+      - python app/seeders/seed_create_database.py --down
+
+  db-migration-up:
+    desc: Create all tables using python seeders (migrate)
+    cmds:
+      - python app/seeders/seed_db_migration.py --up
+  db-migration-down:
+    desc: Remove all tables of db using python seeders
+    cmds:
+      - python app/seeders/seed_db_migration.py --down
+
+  permissions-up:
+    desc: Insert initial Data permissions to the 'permissions' table of DB
+    cmds:
+      - python app/seeders/seed_permissions.py --up
+  permissions-down:
+    desc: Truncate the 'permissions' table of DB
+    cmds:
+      - python app/seeders/seed_permissions.py --down
+
+  admin-role-up:
+    desc: Seed the 'admin' role and assign all permissions
+    deps: [ permissions-up ]
+    cmds:
+      - python app/seeders/seed_admin_role.py --up
+  admin-role-down:
+    desc: Delete 'admin' role and all permissions from the 'admin'
+    cmds:
+      - python app/seeders/seed_admin_role.py --down
+
+  default-admin-up:
+    desc: Seed the default 'admin' user (username=admin, password=admin123)
+    deps: [ admin-role-up ]
+    cmds:
+      - python app/seeders/seed_default_users.py --up
+  default-admin-down:
+    desc: Delete 'admin' role and all permissions from the 'admin'
+    cmds:
+      - python app/seeders/seed_default_users.py --down

@@ -1,0 +1,54 @@
+[
+  {
+    "permission": "show_user",
+    "name": "Показать пользователей"
+  },
+  {
+    "permission": "manage_user",
+    "name": "Обновить пользователя"
+  },
+  {
+    "permission": "show_permission",
+    "name": "Показать разрешение"
+  },
+  {
+    "permission": "manage_permission",
+    "name": "Обновить разрешение"
+  },
+  {
+    "permission": "show_role",
+    "name": "Показать роль"
+  },
+  {
+    "permission": "manage_role",
+    "name": "Обновить роль"
+  },
+  {
+    "permission": "show_product",
+    "name": "Показать продукт"
+  },
+  {
+    "permission": "manage_product",
+    "name": "Обновить продукт"
+  },
+  {
+    "permission": "show_orders",
+    "name": "Показать заказ"
+  },
+  {
+    "permission": "show_order",
+    "name": "Показать заказ"
+  },
+  {
+    "permission": "manage_order",
+    "name": "Обновить заказ"
+  },
+  {
+    "permission": "create_order",
+    "name": "Создать заказ"
+  },
+  {
+    "permission": "show_server_log",
+    "name": "Показать логи"
+  }
+]
