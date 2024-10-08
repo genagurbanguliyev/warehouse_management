@@ -1,4 +1,5 @@
 import logging
+from contextlib import asynccontextmanager
 
 from dependency_injector.wiring import inject
 from fastapi import FastAPI, HTTPException
@@ -30,6 +31,7 @@ class AppCreator:
             title=configs.PROJECT_NAME,
             openapi_url=f"{configs.API}/openapi.json",
             version="2.0.0",
+            lifespan=self.lifespan,
         )
 
         # set db and container
@@ -38,18 +40,6 @@ class AppCreator:
         self.container.wire(modules=[__name__])
 
         self.db = self.container.db()
-
-        @self.app.on_event("startup")
-        @inject
-        async def on_startup():
-            # Configuration logger:
-            configure_logging()
-            logger.info("Starting main app")
-
-        @self.app.on_event("shutdown")
-        @inject
-        async def on_shutdown():
-            logger.info("Stopped main app")
 
         # set cors:
         if configs.BACKEND_CORS_ORIGINS:
@@ -83,6 +73,17 @@ class AppCreator:
 
         self.app.include_router(v1_routers, prefix=configs.API_V1_STR)
 
+    @asynccontextmanager
+    @inject
+    async def lifespan(self, app: FastAPI):
+        # Startup
+        configure_logging()
+        logger.info("Starting main app")
+
+        yield
+
+        # Shutdown
+        logger.info("Stopped main app")
 
 app_creator = AppCreator()
 app = app_creator.app

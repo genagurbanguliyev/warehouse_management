@@ -1,6 +1,6 @@
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from app.enum.permission_enum import PermissionEnum
 from app.schema.base_schema import FindBaseSchema
@@ -22,10 +22,9 @@ class RolePublic(RoleBaseSchema):
 
 
 class RolePublicWithPermissions(RolePublic):
-    permissions: List[PermissionPublic] | None = None
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        from_attributes = True
+    permissions: List[PermissionPublic] | None = None
 
 
 class AddRemovePermission(BaseModel):

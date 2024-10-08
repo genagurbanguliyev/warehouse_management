@@ -18,9 +18,9 @@ async def seed_default_users_up():
     async with db.async_session() as async_session:
         try:
             password_hash = get_password_hash(configs.DEFAULT_ADMIN_PASSWORD)
-            # Check if the 'admin' role already exists
             result = await async_session.execute(
-                select(RoleModel).where(RoleModel.role == "admin")
+                select(RoleModel)
+                .where(RoleModel.role == "admin")
             )
             admin_role = result.scalar_one_or_none()
             if admin_role:
@@ -31,16 +31,8 @@ async def seed_default_users_up():
                     role=admin_role.role,
                     role_detail=admin_role,
                 )
-                # ai_user = UserModel(
-                #     name="AI",
-                #     username="ai",
-                #     password=password_hash,
-                #     role=admin_role.role,
-                #     role_detail=admin_role,
-                # )
 
                 async_session.add(default_admin)
-                # async_session.add(ai_user)
                 await async_session.commit()
                 print("====================")
                 print("Create Default admin")

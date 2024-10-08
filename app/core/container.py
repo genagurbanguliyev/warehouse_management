@@ -47,7 +47,7 @@ class Container(containers.DeclarativeContainer):
         ProductRepository, async_session_factory=db.provided.async_session
     )
     order_repository = providers.Factory(
-        OrderRepository, async_session_factory=db.provided.async_session
+        OrderRepository, async_session_factory=db.provided.async_session,product_repository=product_repository
     )
     server_logs_repository = providers.Factory(
         ServerLogsRepository, async_session_factory=db.provided.async_session

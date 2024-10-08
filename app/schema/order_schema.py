@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from app.enum.order_enum import OrderStatusEnum
 from app.schema.base_schema import FindBaseSchema, FindResultSchema
@@ -12,10 +12,9 @@ from app.util.schema import optional
 
 
 class OrderBase(BaseModel):
-    delivery_address: str
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        from_attributes = True
+    delivery_address: str
 
 
 class OrderCreate(OrderBase):

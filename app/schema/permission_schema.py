@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from app.enum.permission_enum import PermissionEnum
 from app.schema.base_schema import FindBaseSchema
@@ -11,10 +11,9 @@ class PermissionBase(BaseModel):
 
 
 class PermissionPublic(PermissionBase):
-    id: int
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        from_attributes = True
+    id: int
 
 
 @optional()

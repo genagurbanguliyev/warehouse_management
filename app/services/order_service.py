@@ -2,7 +2,7 @@ from typing import List
 
 from app.repository.order_repository import OrderRepository
 from app.schema.base_schema import MessageResponseBase
-from app.schema.order_schema import FindOrderSchema, OrderCreateSchema, OrderBase
+from app.schema.order_schema import FindOrderSchema, OrderCreateSchema, OrderCreate
 from app.services.base_service import BaseService
 
 
@@ -11,7 +11,7 @@ class OrderService(BaseService):
         self.order_repository = order_repository
         super().__init__(order_repository)
 
-    async def add_order(self, order_data: OrderBase, username: str):
+    async def add_order(self, order_data: OrderCreate, username: str):
         order = OrderCreateSchema(**order_data.model_dump(), username=username)
         await self.order_repository.create_order(order)
         return MessageResponseBase(message="Order added successfully")

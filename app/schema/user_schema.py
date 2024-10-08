@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from app.schema.auth_schema import LoginSchema
 from app.schema.base_schema import (
@@ -39,7 +39,6 @@ class UserModelSchema(UserPublic):
 
 
 class UserPublicWithRolePermissions(UserPublic):
-    role_detail: RolePublicWithPermissions | None = None
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        from_attributes = True
+    role_detail: RolePublicWithPermissions | None = None

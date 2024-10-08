@@ -87,8 +87,8 @@ async def get_one(
     status_code=status.HTTP_200_OK,
     response_model=ProductPublic,
     response_model_exclude_none=True,
-    summary="Create product",
-    description="Add new product to the stock",
+    summary="Edit product",
+    description="Edit product details",
 )
 @inject
 async def update(

@@ -39,7 +39,7 @@ async def req_validation_exception_handler(
 ):
     content = MessageResponseBase(
         status=status.HTTP_422_UNPROCESSABLE_ENTITY,
-        message=str(exc),
+        message=f"Invalid data provided: {str(exc)}",
         timestamp=str(get_now()),
     ).model_dump(mode="json")
     if request.state.audit:
@@ -59,7 +59,7 @@ async def res_validation_exception_handler(
 ):
     content = MessageResponseBase(
         status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        message=str(exc),
+        message=f"Invalid data provided: {str(exc)}",
         timestamp=str(get_now()),
     ).model_dump(mode="json")
     if request.state.audit:

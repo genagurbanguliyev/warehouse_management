@@ -1,7 +1,7 @@
 from typing import List
 
 from dependency_injector.wiring import inject, Provide
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Form
 from fastapi.params import Query
 from starlette import status
 
@@ -10,6 +10,7 @@ from app.core.container import Container
 from app.dependency.order_depends import parse_order_query
 from app.dependency.token import JWTBearer
 from app.dependency.user_token import get_current_user_payload
+from app.enum.order_enum import OrderStatusEnum
 from app.enum.permission_enum import PermissionEnum
 from app.schema.auth_schema import PayloadSchema
 from app.schema.base_schema import MessageResponseBase
@@ -20,7 +21,7 @@ from app.services.order_service import OrderService
 router = APIRouter(
     prefix="/orders",
     tags=["Orders"],
-    # dependencies=[Depends(JWTBearer())]
+    dependencies=[Depends(JWTBearer())]
 )
 
 
@@ -123,36 +124,20 @@ async def get_one(
     return await service.get_by_id(id, get_eager=True)
 
 
-@router.delete(
-    "/multi",
-    dependencies=[Depends(PermissionChecker([PermissionEnum.manage_order]))],
-    status_code=status.HTTP_200_OK,
-    response_model=MessageResponseBase,
-    response_model_exclude_none=True,
-    summary="Delete multiple Orders",
-    description="Delete multiple Orders by ids",
-)
-@inject
-async def delete_multi(
-        ids: List[int] = Query(..., alias="ids"),
-        service: OrderService = Depends(Provide[Container.order_service]),
-) -> MessageResponseBase:
-    await service.remove_multiple_by_ids(ids)
-    return MessageResponseBase(message="Deleted successfully")
-
-
-@router.delete(
+@router.patch(
     "/{id}",
     dependencies=[Depends(PermissionChecker([PermissionEnum.manage_order]))],
     status_code=status.HTTP_200_OK,
     response_model=MessageResponseBase,
     response_model_exclude_none=True,
-    summary="Delete one Order",
-    description="Delete Order by id",
+    summary="Edit Order status",
+    description="Edit status of Order by id",
 )
 @inject
-async def delete(
-        id: int, service: OrderService = Depends(Provide[Container.order_service])
+async def set_status(
+        id: int,
+        status: OrderStatusEnum = Form(...),
+        service: OrderService = Depends(Provide[Container.order_service])
 ) -> MessageResponseBase:
-    await service.remove_by_id(id)
-    return MessageResponseBase(message="Deleted successfully")
+    await service.patch_attr(id, "status", status)
+    return MessageResponseBase(message="Status edited successfully")

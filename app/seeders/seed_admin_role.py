@@ -19,32 +19,28 @@ from app.schema.role_schema import RoleCreate
 async def seed_admin_role_up():
     async with db.async_session() as async_session:
         try:
-            # Get all permissions
             result = await async_session.execute(select(PermissionModel))
             permissions = result.scalars().all()
             if not len(permissions):
                 print("There are no permissions in the database. Please try \"task seed:permissions-up\" first")
                 return
 
-            # Check if the 'admin' role already exists
             result = await async_session.execute(
                 select(RoleModel).where(RoleModel.role == "admin")
             )
             admin_role = result.scalar_one_or_none()
 
-            if not admin_role:
-                # Create 'admin' role if it does not exist
+            if admin_role is None:
                 admin_role = RoleCreate(
                     role="admin",
                     name="Админ"
                 )
-                # Create the RoleModel instance without permissions initially
                 query = RoleModel(
                     **{k: v for k, v in admin_role.model_dump().items() if k != "permissions"}
                 )
 
                 async_session.add(query)
-                await async_session.flush()  # Flush to generate ID for the new role
+                await async_session.flush()
 
             for permission in permissions:
                 role_permission_link = RolePermissionsModel(
@@ -72,6 +68,7 @@ async def seed_admin_role_down():
             if admin_role:
                 await async_session.delete(admin_role)
                 await async_session.commit()
+
             print("========================")
             print("Removed 'admin' role and took all permissions")
         except Exception as e:
