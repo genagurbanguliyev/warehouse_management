@@ -21,7 +21,10 @@ async def seed_client_user_and_role_for_test_up():
     if environment == "test":
         async with db.async_session() as async_session:
             try:
-                result = await async_session.execute(select(PermissionModel))
+                result = await async_session.execute(
+                    select(PermissionModel)
+                    .where(PermissionModel.permission.in_([PermissionEnum.create_order, PermissionEnum.show_order, PermissionEnum.show_product]))
+                )
                 permissions = result.scalars().all()
                 if not len(permissions):
                     print("There are no permissions in the database. Please try \"task seed:permissions-up\" first")
@@ -44,17 +47,15 @@ async def seed_client_user_and_role_for_test_up():
                     await async_session.flush()
 
                 for permission in permissions:
-                    if permission.permission in [PermissionEnum.create_order, PermissionEnum.show_order, PermissionEnum.show_product]:
-                        role_permission_link = RolePermissionsModel(
-                            role=query.role, permission=permission.permission
-                        )
-                        async_session.add(role_permission_link)
+                    role_permission_link = RolePermissionsModel(
+                        role=query.role, permission=permission.permission
+                    )
+                    async_session.add(role_permission_link)
                 default_client = UserModel(
                     name="Default client",
-                    username="client",
-                    password="client",
-                    role=client_role.role,
-                    role_detail=client_role,
+                    username="seeder_client",
+                    password="seeder_client",
+                    role=client_role.role
                 )
                 async_session.add(default_client)
                 await async_session.commit()

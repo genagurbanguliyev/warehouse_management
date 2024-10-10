@@ -29,7 +29,6 @@ async def seed_default_users_up():
                     username=configs.DEFAULT_ADMIN,
                     password=password_hash,
                     role=admin_role.role,
-                    role_detail=admin_role,
                 )
 
                 async_session.add(default_admin)

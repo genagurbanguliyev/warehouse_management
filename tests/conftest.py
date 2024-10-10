@@ -1,9 +1,7 @@
-import asyncio
 import os
 
 import pytest
 from httpx import AsyncClient, ASGITransport
-from fastapi.testclient import TestClient
 
 from app.core.config import configs
 from app.main import app
@@ -31,8 +29,9 @@ async def reset_db():
         raise Exception("Not in test environment")
 
 
-@pytest.fixture(scope="function", autouse=True)
-async def init_db():
+@pytest.mark.order(1)
+@pytest.mark.anyio
+async def test_init_db():
     db_path = "tested"
     if not os.path.exists(db_path):
         try:
@@ -46,29 +45,8 @@ async def init_db():
         print("Database already exists, skipping reset_db")
 
 
-@pytest.fixture(scope="function")
-def event_loop():
-    try:
-        loop = asyncio.get_running_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
-
-
-@pytest.fixture(scope="function")
-def client():
-    with TestClient(app) as c:
-        yield c
-
-
-@pytest.fixture(scope="function")
+@pytest.fixture(scope='module')
 async def async_client():
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac
-
-
-# @pytest.fixture()
-# def test_name(request):
-#     return request.node.name

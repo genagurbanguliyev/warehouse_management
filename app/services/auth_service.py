@@ -23,7 +23,7 @@ class AuthService(BaseService):
             if not verify_password(login_info.password, found_user.password):
                 raise AuthError(detail="Incorrect password")
             payload = PayloadSchema(id=found_user.id, username=found_user.username)
-            return create_access_token(payload.dict())
+            return create_access_token(payload.model_dump())
         except Exception as error:
             raise error
 

@@ -19,6 +19,15 @@ tasks:
     cmds:
       - python app/seeders/seed_db_migration.py --down
 
+  db-migration-alembic-up:
+    desc: Migration upgrade using alembic (+1 step from head)
+    cmds:
+      - alembic upgrade +1
+  db-migration-alembic-down:
+    desc: Migration downgrade using alembic (-1 step from head)
+    cmds:
+      - alembic downgrade -1
+
   permissions-up:
     desc: Insert initial Data permissions to the 'permissions' table of DB
     cmds:

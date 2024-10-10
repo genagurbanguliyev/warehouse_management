@@ -10,7 +10,7 @@ class ProductModel(Base):
     __tablename__ = "product"
 
     id: Mapped[intpk]
-    title: Mapped[str] = mapped_column(Text, nullable=False)
+    title: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
     desc: Mapped[str | None] = mapped_column(Text, nullable=True)
     quantity_in_stock: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 

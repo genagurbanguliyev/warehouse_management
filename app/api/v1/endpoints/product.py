@@ -22,7 +22,7 @@ router = APIRouter(
 @router.post(
     "",
     dependencies=[Depends(PermissionChecker([PermissionEnum.manage_product]))],
-    status_code=status.HTTP_200_OK,
+    status_code=status.HTTP_201_CREATED,
     response_model=ProductPublic,
     response_model_exclude_none=True,
     summary="Create product",

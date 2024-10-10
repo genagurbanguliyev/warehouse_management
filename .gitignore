@@ -12,3 +12,6 @@ poetry.lock
 # logs
 logs/*
 !logs/log
+
+# test
+tested

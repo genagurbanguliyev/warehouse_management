@@ -4,7 +4,7 @@ from app.core.config import configs
 
 
 def mock_auth_data(headers: str | None, data: str | None, mock_login: Any | None) -> tuple | None:
-    token, hash_value, captcha_value = None, None, None
+    token = None
     if mock_login is not None:
         token = mock_login
     mock_data = {
@@ -17,7 +17,7 @@ def mock_auth_data(headers: str | None, data: str | None, mock_login: Any | None
         },
         "incorrect_username": {
             "username": "incorrect_username",
-            "password": "incorrect"
+            "password": configs.DEFAULT_ADMIN_PASSWORD
         },
         "incorrect_password": {
             "username": configs.DEFAULT_ADMIN,
@@ -28,10 +28,10 @@ def mock_auth_data(headers: str | None, data: str | None, mock_login: Any | None
             "pwd": "invalid"
         },
         "registration_valid_body": {
-            "name": "test_admin",
-            "username": "test_admin4",
-            "password": "test_password4",
-            "role": "user"
+            "name": "test_client",
+            "username": "test_client",
+            "password": "test_client_password",
+            "role": "client"
         },
         "null_variable": None
     }
