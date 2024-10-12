@@ -2,6 +2,7 @@ import asyncio
 import sys
 import os
 
+from psycopg.errors import DuplicateDatabase
 from sqlalchemy import text, create_engine
 from sqlalchemy.exc import ProgrammingError
 
@@ -21,6 +22,8 @@ async def seed_create_database_up():
         try:
             conn.execute(text(f"CREATE DATABASE {configs.DB_NAME}"))
             print("Created database successfully!!!")
+        except DuplicateDatabase:
+            print("Warning: Database already exists!")
         except ProgrammingError as e:
             print(f"Database creation error: {e}")
 

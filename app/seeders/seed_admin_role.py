@@ -2,6 +2,7 @@ import asyncio
 import sys
 import os
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
 
@@ -53,6 +54,10 @@ async def seed_admin_role_up():
             print("========================")
             print("Created 'admin' role and gave all permissions")
             print("Admin Role data seeded successfully!")
+
+        except IntegrityError:
+            print("---------------------------")
+            print(f"Warning seeding admin_ole: Data also in database!")
         except Exception as e:
             print("---------------------------")
             print(f"Error seeding up Admin Role: {e}")

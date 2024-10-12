@@ -1,6 +1,7 @@
 import sys
 import os
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
 from app.enum.permission_enum import PermissionEnum
@@ -62,6 +63,9 @@ async def seed_client_user_and_role_for_test_up():
                 print("====================")
                 print("Create Default client user")
                 print("Seeder run Successfully!")
+            except IntegrityError:
+                print("---------------------------")
+                print(f"Warning seeding: Data also in database!")
             except Exception as e:
                 print("---------------------------")
                 print(f"Error seeding up Default test client user: {e}")

@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    command: ["/fastapi_app/docker/app.sh"]
+    environment:
+      ENVIRONMENT: "prod"
+    depends_on:
+      - db_app
+
+  db_app:
+    image: postgres:15
+    volumes:
+      - /home/gena/Desktop/development/test/postgres_data:/var/lib/postgresql/data/
+    container_name: db_app
+    command: -p 1221
+    expose:
+      - 1221
+    env_file:
+      - .env.prod
+
+volumes:
+  postgres_data:

@@ -2,6 +2,7 @@ import asyncio
 import sys
 import os
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__ + "../../"))
@@ -39,6 +40,9 @@ async def seed_default_users_up():
             else:
                 print("---------------------------")
                 print("Admin role doesn't exist")
+        except IntegrityError:
+            print("---------------------------")
+            print(f"Warning seeding default_users: Data also in database!")
         except Exception as e:
             print("---------------------------")
             print(f"Error seeding up Default admin: {e}")

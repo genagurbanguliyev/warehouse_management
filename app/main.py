@@ -51,13 +51,6 @@ class AppCreator:
                 allow_headers=["*"],
             )
 
-        # mount public folders:
-        self.app.mount(
-            "/public_products",
-            StaticFiles(directory=f"{configs.PROJECT_ROOT}/public/products"),
-            name="public_products",
-        )
-
         # Add Middleware
         self.app.add_middleware(RequestControlMiddleware)
 

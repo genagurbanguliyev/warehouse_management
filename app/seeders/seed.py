@@ -4,6 +4,7 @@ import json
 from typing import Any
 
 from sqlalchemy import text
+from sqlalchemy.exc import IntegrityError
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__ + "../../"))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
@@ -29,7 +30,10 @@ async def seed_up(seeder: str, filename: str, model: Any):
             print(f"{seeder} data seeded successfully!")
         except FileNotFoundError:
             print("---------------------------")
-            print("File does not exist")
+            print("Error seeding {seeder}: File does not exist")
+        except IntegrityError:
+            print("---------------------------")
+            print(f"Warning seeding {seeder}: Data also in database")
         except Exception as e:
             print("---------------------------")
             print(f"Error seeding {seeder}: {e}")
