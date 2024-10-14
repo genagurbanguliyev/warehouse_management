@@ -16,7 +16,7 @@ services:
   db_app:
     image: postgres:15
     volumes:
-      - /home/gena/Desktop/development/test/postgres_data:/var/lib/postgresql/data/
+      - ./postgres_data:/var/lib/postgresql/data/
     container_name: db_app
     command: -p 1221
     expose:
