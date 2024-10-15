@@ -1,7 +1,7 @@
 import pytest
 
-from app.schema.base_schema import MessageResponseBase
-from app.schema.product_schema import ProductResponseSchema, ProductPublic
+from warehouse_management.schema.base_schema import MessageResponseBase
+from warehouse_management.schema.product_schema import ProductResponseSchema, ProductPublic
 from tests.test_api.test_v1.mock.mock_products import mock_products_data
 from tests.test_api.test_v1.test_endpoints.test_auth import mock_login  # noqa
 

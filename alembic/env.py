@@ -5,10 +5,10 @@ from sqlalchemy import pool
 
 from alembic import context
 
-import app.model  # noqa
+import warehouse_management.model  # noqa
 
-from app.core.config import configs
-from app.model.base_model import Base
+from warehouse_management.core.config import configs
+from warehouse_management.model.base_model import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

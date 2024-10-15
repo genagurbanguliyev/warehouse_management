@@ -1,6 +1,6 @@
 from typing import Any
 
-from app.core.config import configs
+from warehouse_management.core.config import configs
 
 
 def mock_auth_data(headers: str | None, data: str | None, mock_login: Any | None) -> tuple | None:

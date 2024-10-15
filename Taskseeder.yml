@@ -4,20 +4,20 @@ tasks:
   create-db-up:
     desc: Create database
     cmds:
-      - python app/seeders/seed_create_database.py --up
+      - python warehouse_management/seeders/seed_create_database.py --up
   create-db-down:
     desc: Remove database
     cmds:
-      - python app/seeders/seed_create_database.py --down
+      - python warehouse_management/seeders/seed_create_database.py --down
 
   db-migration-up:
     desc: Create all tables using python seeders (migrate)
     cmds:
-      - python app/seeders/seed_db_migration.py --up
+      - python warehouse_management/seeders/seed_db_migration.py --up
   db-migration-down:
     desc: Remove all tables of db using python seeders
     cmds:
-      - python app/seeders/seed_db_migration.py --down
+      - python warehouse_management/seeders/seed_db_migration.py --down
 
   db-migration-alembic-up:
     desc: Migration upgrade using alembic (+1 step from head)
@@ -31,28 +31,28 @@ tasks:
   permissions-up:
     desc: Insert initial Data permissions to the 'permissions' table of DB
     cmds:
-      - python app/seeders/seed_permissions.py --up
+      - python warehouse_management/seeders/seed_permissions.py --up
   permissions-down:
     desc: Truncate the 'permissions' table of DB
     cmds:
-      - python app/seeders/seed_permissions.py --down
+      - python warehouse_management/seeders/seed_permissions.py --down
 
-  admin-role-up:
-    desc: Seed the 'admin' role and assign all permissions
+  default-roles-up:
+    desc: Seed the 'admin', 'client' roles and assign permissions
     deps: [ permissions-up ]
     cmds:
-      - python app/seeders/seed_admin_role.py --up
-  admin-role-down:
-    desc: Delete 'admin' role and all permissions from the 'admin'
+      - python warehouse_management/seeders/seed_default_roles.py --up
+  default-roles-down:
+    desc: Delete 'admin', 'client' roles and their permissions
     cmds:
-      - python app/seeders/seed_admin_role.py --down
+      - python warehouse_management/seeders/seed_default_roles.py --down
 
-  default-admin-up:
-    desc: Seed the default 'admin' user (username=admin, password=admin123)
-    deps: [ admin-role-up ]
+  default-users-up:
+    desc: Seed the default 'admin' user (username=admin, password=admin123)(client user for testing purposes)
+    deps: [ default-roles-up ]
     cmds:
-      - python app/seeders/seed_default_users.py --up
-  default-admin-down:
-    desc: Delete 'admin' role and all permissions from the 'admin'
+      - python warehouse_management/seeders/seed_default_users.py --up
+  default-users-down:
+    desc: Delete 'admin' user(client user for testing purposes)
     cmds:
-      - python app/seeders/seed_default_users.py --down
+      - python warehouse_management/seeders/seed_default_users.py --down

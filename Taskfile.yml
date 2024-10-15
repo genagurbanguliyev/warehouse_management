@@ -10,11 +10,11 @@ tasks:
   run-local:
     desc: Run app locally.
     cmds:
-      - uvicorn app.main:app --reload --port 8080
+      - uvicorn warehouse_management.main:app --reload --port 8080
   run-global:
     desc: Run app globally.
     cmds:
-      - gunicorn app.main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+      - gunicorn warehouse_management.main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
 
   kill-uvicorn:
     desc: Kill all uvicorn tasks

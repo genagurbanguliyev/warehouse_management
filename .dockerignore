@@ -1,4 +1,6 @@
 ./poetry.lock
 tests
 
-public
+# Task files:
+Taskfile.yml
+Taskseeder.yml
