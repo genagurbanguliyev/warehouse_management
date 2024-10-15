@@ -28,3 +28,9 @@ After installing `Taskfile` you can run `task -l` to list all tasks.
 for testing app:
 FIRST set `.env` file `ENVIRONMENT=test` \
 Run: `pytest` in root directory of project
+
+***
+## Up in docker:
+```bash
+docker compose up
+```
