@@ -10,7 +10,7 @@ tasks:
   run-local:
     desc: Run app locally.
     cmds:
-      - uvicorn warehouse_management.main:app --reload --port 8080
+      - uvicorn warehouse_management.main:app --reload --port 8000
   run-global:
     desc: Run app globally.
     cmds:
